@@ -9,12 +9,10 @@
 import Foundation
 import CoreMotion
 
+/// Singleton encapsulation of CMMotionManager object.
 public struct MotionManager {
     /// Singleton instance of motion manager.
     public static var instance = CMMotionManager()
-    
-    //MARK: Nope
-    private init() {}
 }
 
 /**
@@ -22,10 +20,12 @@ public struct MotionManager {
  Note this basically replicates the "%W.Pf" printf format where W is width and P is precision. Nomenclature is likely wrong.
  
  - parameters:
-   - width: total width; number of digits to the left of the decimal point is *width - precision - 1*
+   - width: total width; number of digits to the left of the decimal point is `width - precision - 1`
    - precision: number of digits to the right of the decimal point
  */
-public struct MotionDataDecimalFormatter {
+public class MotionInfoDecimalFormatter {
+    public static let defaultFormatter = MotionInfoDecimalFormatter()
+    
     private let _formatter = NSNumberFormatter()
     
     /// Width in "characters".
@@ -67,15 +67,48 @@ public struct MotionDataDecimalFormatter {
     }
 }
 
+extension Double {
+    /// Default formmated string via `MotionInfoDecimalFormatter`.
+    public var motionString: String? {
+        return MotionInfoDecimalFormatter.defaultFormatter.stringFromDouble(self)
+    }
+    
+    public func motionString(withFormatter f: MotionInfoDecimalFormatter) -> String? {
+        return f.stringFromDouble(self)
+    }
+}
+
+
+/**
+ MotionInfo delegate for observing. So more of a single observer pattern, really.
+ */
+protocol MotionInfoDelegate {
+    func referenceAttitudeDidChange()
+}
+
 
 /**
  Encapsulate CMDeviceMotion data gathering for reference frame based acceleration data.
  */
 class MotionInfo {
     
+    var delegate: MotionInfoDelegate?
+    var referenceAttitude: CMAttitude? {
+        didSet {
+            delegate?.referenceAttitudeDidChange()
+        }
+    }
+    
+    func startDataCapture() {
+        let mm = MotionManager.instance
+        referenceAttitude = mm.deviceMotion?.attitude
+    }
+    
+    func stopDataCapture() {
+        referenceAttitude = nil
+    }
+    
 }
-
-
 
 
 
