@@ -157,6 +157,9 @@
                                         <rect key="frame" x="0.0" y="208" width="560" height="39"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                         <state key="normal" title="Start"/>
+                                        <connections>
+                                            <action selector="startStopTap" destination="BYZ-38-t0r" eventType="touchUpInside" id="MLa-k9-NSu"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -168,6 +171,16 @@
                             <constraint firstItem="IIV-zd-VRN" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="iVA-Vr-Had"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="accelX" destination="ysc-92-88F" id="WhA-b1-oyX"/>
+                        <outlet property="accelY" destination="qoa-gw-ZqU" id="69v-X7-wv5"/>
+                        <outlet property="accelZ" destination="859-mv-236" id="WHf-R0-S1i"/>
+                        <outlet property="quaternionW" destination="ifZ-HR-9t9" id="Z8a-qM-ymp"/>
+                        <outlet property="quaternionX" destination="sKa-HQ-uS5" id="t7N-PK-yBP"/>
+                        <outlet property="quaternionY" destination="0dE-1c-8Hd" id="Prb-gV-Zk6"/>
+                        <outlet property="quaternionZ" destination="fvx-pT-NY0" id="zbZ-kQ-oeC"/>
+                        <outlet property="startStopButton" destination="duM-tY-kTQ" id="DDQ-I3-g5S"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
