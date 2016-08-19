@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, MotionInfoDelegate {
 
     let motionInfo = MotionInfo()
     let nilNumberString = "-.----"
@@ -32,7 +32,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        numberLabelsToNil()
+        quaternionLabelsToNil()
+        accelLabelsToNil()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -53,7 +54,8 @@ class ViewController: UIViewController {
         if isRunning {
             // Stop collecting data.
             
-            numberLabelsToNil()
+            quaternionLabelsToNil()
+            accelLabelsToNil()
             startStopButton?.setTitle("Start", forState: UIControlState.Normal)
             isRunning = false
         } else { // not running
@@ -64,22 +66,29 @@ class ViewController: UIViewController {
         }
     }
 
-    func numberLabelsToNil() {
+    func quaternionLabelsToNil() {
         quaternionX?.text = nilNumberString
         quaternionY?.text = nilNumberString
         quaternionZ?.text = nilNumberString
         quaternionW?.text = nilNumberString
+    }
+    
+    func accelLabelsToNil() {
         accelX?.text = nilNumberString
         accelY?.text = nilNumberString
         accelZ?.text = nilNumberString
     }
     
     func updateQuaternionLabels() {
-        // Get label strings from MotionInfo object.
-//        quaternionX?.text = motionInfo.referenceFrameX.string
-//        quaternionY?.text = ?
-//        quaternionZ?.text = ?
-//        quaternionW?.text = ?
+        guard let ra = motionInfo.referenceAttitude else {
+            quaternionLabelsToNil()
+            return
+        }
+        
+        quaternionX?.text = ra.quaternion.x.motionString
+        quaternionY?.text = ra.quaternion.y.motionString
+        quaternionZ?.text = ra.quaternion.z.motionString
+        quaternionW?.text = ra.quaternion.w.motionString
     }
     
     func updateAccelLabels() {
@@ -87,6 +96,11 @@ class ViewController: UIViewController {
 //        accelX?.text = MotionInfo.accelX.string
 //        accelY?.text = MotionInfo.accelX.string
 //        accelZ?.text = MotionInfo.accelX.string
+    }
+    
+    //MARK: MotionInfo delegate
+    func referenceAttitudeDidChange() {
+        updateQuaternionLabels()
     }
 }
 
