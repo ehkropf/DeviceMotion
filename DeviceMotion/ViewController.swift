@@ -95,8 +95,8 @@ class ViewController: UIViewController {
     }
 
     func updateVelocityLabels() {
-        labelPhoneVelocity?.text = phoneIntegral.string
-        labelFrozenVelocity?.text = frozenIntegral.string
+        labelPhoneVelocity?.text = String(phoneIntegral)
+        labelFrozenVelocity?.text = String(frozenIntegral)
     }
 }
 

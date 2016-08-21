@@ -97,9 +97,9 @@ class VelocityFormatter {
     
 }
 
-extension VelocityIntegral {
-    var string: String? {
-        return VelocityFormatter().toString(self)
+extension String {
+    init(integral vi: VelocityIntegral) {
+        self = VelocityFormatter().toString(vi)!
     }
 }
 
