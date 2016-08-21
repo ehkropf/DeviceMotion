@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreMotion
 
 class ViewController: UIViewController {
 
@@ -23,6 +24,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var labelX: UILabel?
     @IBOutlet weak var labelY: UILabel?
     @IBOutlet weak var labelZ: UILabel?
+    
+    @IBOutlet weak var labelPhoneVelocity: UILabel?
+    @IBOutlet weak var labelFrozenVelocity: UILabel?
     
     @IBOutlet weak var startStopButton: UIButton?
     
@@ -74,7 +78,26 @@ class ViewController: UIViewController {
 
 }
 
+extension CMAcceleration {
+    var modulus: Double {
+        return sqrt(self.x*self.x + self.y*self.y + self.z*self.z)
+    }
+}
 
+class VelocityIntegral {
+    
+    var value: Double = 0
+    var dt: Double
+    
+    init(dt: Double) {
+        self.dt = dt
+    }
+    
+    func add(acceleration acc: CMAcceleration) {
+        value += acc.modulus*dt
+    }
+    
+}
 
 
 
