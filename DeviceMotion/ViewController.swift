@@ -18,8 +18,8 @@ class ViewController: UIViewController {
     
     //MARK: View outlets
     
-    @IBOutlet weak var graphNoReference: GraphView?
-    @IBOutlet weak var graphReference: GraphView?
+    @IBOutlet weak var graphPhone: GraphView?
+    @IBOutlet weak var graphFrozen: GraphView?
     
     @IBOutlet weak var labelX: UILabel?
     @IBOutlet weak var labelY: UILabel?
@@ -72,8 +72,8 @@ class ViewController: UIViewController {
         let acc = dm.userAcceleration
         let aref = dm.userAccelerationInReferenceFrame
         
-        graphReference?.add(acc.x, acc.y, acc.z)
-        graphNoReference?.add(aref.x, aref.y, aref.z)
+        graphFrozen?.add(acc.x, acc.y, acc.z)
+        graphPhone?.add(aref.x, aref.y, aref.z)
     }
 
 }

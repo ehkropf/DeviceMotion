@@ -162,8 +162,8 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="graphNoReference" destination="tNp-4e-rhz" id="yu4-26-cfQ"/>
-                        <outlet property="graphReference" destination="UTu-t6-mAK" id="9jf-7j-Gdm"/>
+                        <outlet property="graphFrozen" destination="UTu-t6-mAK" id="ICt-Ww-nGW"/>
+                        <outlet property="graphPhone" destination="tNp-4e-rhz" id="X0k-2L-str"/>
                         <outlet property="labelFrozenVelocity" destination="n79-sK-gfc" id="9au-iX-dfI"/>
                         <outlet property="labelPhoneVelocity" destination="9Yg-uG-7tg" id="l0P-F0-ZT3"/>
                         <outlet property="labelX" destination="miD-ZK-GGq" id="R3F-eu-eLs"/>
