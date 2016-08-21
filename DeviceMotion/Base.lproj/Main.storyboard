@@ -137,7 +137,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="graphPhone" destination="tNp-4e-rhz" id="X0k-2L-str"/>
                         <outlet property="labelX" destination="miD-ZK-GGq" id="R3F-eu-eLs"/>
                         <outlet property="labelY" destination="ioG-eU-AqV" id="NDp-zP-Sxf"/>
                         <outlet property="labelZ" destination="rmH-WC-zzM" id="9kO-zi-WnG"/>
