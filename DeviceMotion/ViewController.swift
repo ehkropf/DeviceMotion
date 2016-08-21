@@ -17,20 +17,11 @@ class ViewController: UIViewController {
     var updateInterval: Double = 30 // Hertz
     var isRunning = false
     
-    var phoneIntegral: VelocityIntegral!
-    var frozenIntegral: VelocityIntegral!
-    
     //MARK: View outlets
-    
-    @IBOutlet weak var graphPhone: GraphView?
-    @IBOutlet weak var graphFrozen: GraphView?
     
     @IBOutlet weak var labelX: UILabel?
     @IBOutlet weak var labelY: UILabel?
     @IBOutlet weak var labelZ: UILabel?
-    
-    @IBOutlet weak var labelPhoneVelocity: UILabel?
-    @IBOutlet weak var labelFrozenVelocity: UILabel?
     
     @IBOutlet weak var startStopButton: UIButton?
     
@@ -43,9 +34,7 @@ class ViewController: UIViewController {
         labelY?.textColor = UIColor(CGColor: GVHelpers.graphYColor)
         labelZ?.textColor = UIColor(CGColor: GVHelpers.graphZColor)
         
-        let dt = 1.0/updateInterval
-        phoneIntegral = VelocityIntegral(dt: dt)
-        frozenIntegral = VelocityIntegral(dt: dt)
+//        let dt = 1.0/updateInterval
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -69,9 +58,6 @@ class ViewController: UIViewController {
         } else { // not running
             
             isRunning = true
-            phoneIntegral.reset()
-            frozenIntegral.reset()
-            updateVelocityLabels()
             motionControl.startDeviceMotion()
             timer = NSTimer(timeInterval: NSTimeInterval(1.0/updateInterval), target: self, selector: #selector(timerHandler(_:)), userInfo: nil, repeats: true)
             NSRunLoop.currentRunLoop().addTimer(timer!, forMode: NSDefaultRunLoopMode)
@@ -81,23 +67,14 @@ class ViewController: UIViewController {
     }
     
     @objc func timerHandler(timer: NSTimer?) {
-        guard let dm = motionControl.deviceMotion else {
-            return
-        }
-        let acc = dm.userAcceleration
-        let aref = dm.userAccelerationInReferenceFrame
+//        guard let dm = motionControl.deviceMotion else {
+//            return
+//        }
+//        let acc = dm.userAcceleration
+//        let aref = dm.userAccelerationInReferenceFrame
         
-        graphPhone?.add(acc.x, acc.y, acc.z)
-        phoneIntegral.add(acceleration: acc)
-        graphFrozen?.add(aref.x, aref.y, aref.z)
-        frozenIntegral.add(acceleration: aref)
-        updateVelocityLabels()
     }
-
-    func updateVelocityLabels() {
-        labelPhoneVelocity?.text = String(phoneIntegral)
-        labelFrozenVelocity?.text = String(frozenIntegral)
-    }
+    
 }
 
 
