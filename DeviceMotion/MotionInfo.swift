@@ -81,6 +81,7 @@ extension Double {
 
 
 extension CMDeviceMotion {
+    /// Applies rotation matrix to user acceleration.
     var userAccelerationInReferenceFrame: CMAcceleration {
         let acc = self.userAcceleration
         let rot = self.attitude.rotationMatrix
