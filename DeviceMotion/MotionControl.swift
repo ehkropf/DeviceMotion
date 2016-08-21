@@ -30,65 +30,29 @@ extension CMDeviceMotion {
 }
 
 /**
- MotionInfo delegate for observing. So more of a single observer pattern, really.
- */
-protocol MotionInfoDelegate {
-    func referenceAttitudeUpdated()
-    func accelerationUpdated()
-}
-
-
-/**
  Encapsulate CMDeviceMotion data gathering for reference frame based acceleration data.
  */
-class MotionInfo {
+class MotionControl {
     
-    /// Update interval in Hertz.
-    var updateInterval: Double = 30
-    
-    /// Attitude at start of updates.
-    var referenceAttitude: CMAttitude? {
-        didSet {
-            delegate?.referenceAttitudeUpdated()
-        }
+    var deviceMotion: CMDeviceMotion? {
+        return MotionManager.instance.deviceMotion
     }
     
-    /// Current acceleration measurement.
-    var acceleration: CMAcceleration? {
-        didSet {
-            delegate?.accelerationUpdated()
-        }
-    }
-    
-    /// Delegate to recieve updates.
-    var delegate: MotionInfoDelegate?
-    
-    /// Begin updating acceleration data (with resepect to reference frame) with `updateInterval` frequency.
-    func startDataCapture() {
+    func startDeviceMotion() {
         let mm = MotionManager.instance
         guard mm.deviceMotionAvailable else {
             return
         }
-        referenceAttitude = mm.deviceMotion?.attitude
-        mm.deviceMotionUpdateInterval = NSTimeInterval(1.0/updateInterval)
-        mm.startDeviceMotionUpdatesToQueue(NSOperationQueue.mainQueue()) { deviceMotion, _ in
-            guard let dm = deviceMotion else {
-                return
-            }
-            self.acceleration = dm.userAccelerationInReferenceFrame
-        }
+        mm.startDeviceMotionUpdates()
     }
     
-    /// Stop updating acceleration data.
-    func stopDataCapture() {
+    func stopDeviceMotion() {
         let mm = MotionManager.instance
         guard mm.deviceMotionAvailable else {
             return
         }
-        referenceAttitude = nil
         mm.stopDeviceMotionUpdates()
     }
-    
 }
 
 
