@@ -12,7 +12,7 @@ class ViewController: UIViewController {
 
     let motionControl = MotionControl()
     var timer: NSTimer?
-    var updateInterval: Double = 20 // Hertz
+    var updateInterval: Double = 30 // Hertz
     var isRunning = false
     
     //MARK: View outlets
