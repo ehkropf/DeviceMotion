@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController, MotionInfoDelegate {
 
     let motionInfo = MotionInfo()
-    let nilNumberString = "-.----"
+    let nilNumberString = "-.--"
     var isRunning = false
     
     //MARK: View outlets

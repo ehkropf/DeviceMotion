@@ -29,13 +29,13 @@ public class MotionInfoDecimalFormatter {
     private let _formatter = NSNumberFormatter()
     
     /// Width in "characters".
-    public var width = 6 {
+    public var width = 4 {
         didSet {
             setIntegerLimits()
         }
     }
     /// Digits to the right of the decimal point.
-    public var precision = 4 {
+    public var precision = 2 {
         didSet {
             setIntegerLimits()
             setFractionLimits()
