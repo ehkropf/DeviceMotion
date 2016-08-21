@@ -60,11 +60,14 @@ class ViewController: UIViewController {
     
     @IBAction func startStopTap() {
         if isRunning {
+            
             isRunning = false
             timer?.invalidate()
             motionControl.stopDeviceMotion()
             startStopButton?.setTitle("Start", forState: UIControlState.Normal)
+            
         } else { // not running
+            
             isRunning = true
             phoneIntegral.reset()
             frozenIntegral.reset()
@@ -73,6 +76,7 @@ class ViewController: UIViewController {
             timer = NSTimer(timeInterval: NSTimeInterval(1.0/updateInterval), target: self, selector: #selector(timerHandler(_:)), userInfo: nil, repeats: true)
             NSRunLoop.currentRunLoop().addTimer(timer!, forMode: NSDefaultRunLoopMode)
             startStopButton?.setTitle("Stop", forState: UIControlState.Normal)
+            
         }
     }
     
@@ -93,60 +97,6 @@ class ViewController: UIViewController {
     func updateVelocityLabels() {
         labelPhoneVelocity?.text = phoneIntegral.string
         labelFrozenVelocity?.text = frozenIntegral.string
-    }
-}
-
-extension CMAcceleration {
-    var modulus: Double {
-        return sqrt(self.x*self.x + self.y*self.y + self.z*self.z)
-    }
-}
-
-class VelocityIntegral {
-    
-    var integralValue: [Double] = [0, 0, 0]
-    var value: Double {
-        let v = integralValue
-        return sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2])
-    }
-    var dt: Double
-    
-    init(dt: Double) {
-        self.dt = dt
-    }
-    
-    func reset() {
-        integralValue = [0, 0, 0]
-    }
-    
-    func add(acceleration acc: CMAcceleration) {
-        integralValue[0] += acc.x*dt
-        integralValue[1] += acc.y*dt
-        integralValue[2] += acc.z*dt
-    }
-    
-}
-
-class VelocityFormatter {
-    
-    var _formatter = NSNumberFormatter()
-    
-    init() {
-        _formatter.numberStyle = .DecimalStyle
-        _formatter.minimumIntegerDigits = 1
-        _formatter.minimumFractionDigits = 2
-        _formatter.maximumFractionDigits = 2
-    }
-    
-    func toString(integral: VelocityIntegral) -> String? {
-        return _formatter.stringFromNumber(NSNumber(double: integral.value))
-    }
-    
-}
-
-extension VelocityIntegral {
-    var string: String? {
-        return VelocityFormatter().toString(self)
     }
 }
 
