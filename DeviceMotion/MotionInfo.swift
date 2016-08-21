@@ -68,22 +68,38 @@ public class MotionInfoDecimalFormatter {
 }
 
 extension Double {
-    /// Default formmated string via `MotionInfoDecimalFormatter`.
+    /// Default formated string via `MotionInfoDecimalFormatter`.
     public var motionString: String? {
         return MotionInfoDecimalFormatter.defaultFormatter.stringFromDouble(self)
     }
     
+    // Supply formatter to convert to string.
     public func motionString(withFormatter f: MotionInfoDecimalFormatter) -> String? {
         return f.stringFromDouble(self)
     }
 }
 
 
+extension CMDeviceMotion {
+    var userAccelerationInReferenceFrame: CMAcceleration {
+        let acc = self.userAcceleration
+        let rot = self.attitude.rotationMatrix
+        
+        var accRef = CMAcceleration()
+        accRef.x = acc.x*rot.m11 + acc.y*rot.m12 + acc.z*rot.m13
+        accRef.y = acc.x*rot.m21 + acc.y*rot.m22 + acc.z*rot.m23
+        accRef.z = acc.x*rot.m31 + acc.y*rot.m32 + acc.z*rot.m33
+        
+        return accRef
+    }
+}
+
 /**
  MotionInfo delegate for observing. So more of a single observer pattern, really.
  */
 protocol MotionInfoDelegate {
-    func referenceAttitudeDidChange()
+    func referenceAttitudeUpdated()
+    func accelerationUpdated()
 }
 
 
@@ -92,20 +108,50 @@ protocol MotionInfoDelegate {
  */
 class MotionInfo {
     
-    var delegate: MotionInfoDelegate?
+    /// Update interval in Hertz.
+    var updateInterval: Double = 30
+    
+    /// Attitude at start of updates.
     var referenceAttitude: CMAttitude? {
         didSet {
-            delegate?.referenceAttitudeDidChange()
+            delegate?.referenceAttitudeUpdated()
         }
     }
     
-    func startDataCapture() {
-        let mm = MotionManager.instance
-        referenceAttitude = mm.deviceMotion?.attitude
+    /// Current acceleration measurement.
+    var acceleration: CMAcceleration? {
+        didSet {
+            delegate?.accelerationUpdated()
+        }
     }
     
+    /// Delegate to recieve updates.
+    var delegate: MotionInfoDelegate?
+    
+    /// Begin updating acceleration data (with resepect to reference frame) with `updateInterval` frequency.
+    func startDataCapture() {
+        let mm = MotionManager.instance
+        guard mm.deviceMotionAvailable else {
+            return
+        }
+        referenceAttitude = mm.deviceMotion?.attitude
+        mm.deviceMotionUpdateInterval = NSTimeInterval(1.0/updateInterval)
+        mm.startDeviceMotionUpdatesToQueue(NSOperationQueue.mainQueue()) { deviceMotion, _ in
+            guard let dm = deviceMotion else {
+                return
+            }
+            self.acceleration = dm.userAccelerationInReferenceFrame
+        }
+    }
+    
+    /// Stop updating acceleration data.
     func stopDataCapture() {
+        let mm = MotionManager.instance
+        guard mm.deviceMotionAvailable else {
+            return
+        }
         referenceAttitude = nil
+        mm.stopDeviceMotionUpdates()
     }
     
 }
