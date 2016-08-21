@@ -32,37 +32,33 @@ class ViewController: UIViewController, MotionInfoDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        motionInfo.delegate = self
+        motionInfo.updateInterval = 4.0
         quaternionLabelsToNil()
         accelLabelsToNil()
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // If running, resume data collection.
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        // Pause data collection.
+        if isRunning {
+            startStopTap()
+        }
     }
 
     //MARK: Doing things
     
     @IBAction func startStopTap() {
         if isRunning {
-            // Stop collecting data.
-            
+            isRunning = false
+            motionInfo.stopDataCapture()
             quaternionLabelsToNil()
             accelLabelsToNil()
             startStopButton?.setTitle("Start", forState: UIControlState.Normal)
-            isRunning = false
         } else { // not running
-            // Start collecting data.
-            
-            startStopButton?.setTitle("Stop", forState: UIControlState.Normal)
             isRunning = true
+            motionInfo.startDataCapture()
+            startStopButton?.setTitle("Stop", forState: UIControlState.Normal)
         }
     }
 
@@ -84,7 +80,6 @@ class ViewController: UIViewController, MotionInfoDelegate {
             quaternionLabelsToNil()
             return
         }
-        
         quaternionX?.text = ra.quaternion.x.motionString
         quaternionY?.text = ra.quaternion.y.motionString
         quaternionZ?.text = ra.quaternion.z.motionString
@@ -92,15 +87,27 @@ class ViewController: UIViewController, MotionInfoDelegate {
     }
     
     func updateAccelLabels() {
-        // Get label strings from MotionInfo object.
-//        accelX?.text = MotionInfo.accelX.string
-//        accelY?.text = MotionInfo.accelX.string
-//        accelZ?.text = MotionInfo.accelX.string
+        guard let acc = motionInfo.acceleration else {
+            return
+        }
+        accelX?.text = acc.x.motionString
+        accelY?.text = acc.y.motionString
+        accelZ?.text = acc.z.motionString
     }
     
     //MARK: MotionInfo delegate
-    func referenceAttitudeDidChange() {
+    func referenceAttitudeUpdated() {
+        guard isRunning else {
+            return
+        }
         updateQuaternionLabels()
+    }
+    
+    func accelerationUpdated() {
+        guard isRunning else {
+            return
+        }
+        updateAccelLabels()
     }
 }
 
