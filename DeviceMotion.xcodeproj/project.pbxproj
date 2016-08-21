@@ -13,6 +13,7 @@
 		FB17B7061D662F040066B015 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB17B7051D662F040066B015 /* Assets.xcassets */; };
 		FB17B7091D662F040066B015 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB17B7071D662F040066B015 /* LaunchScreen.storyboard */; };
 		FB17B7111D66F15F0066B015 /* MotionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB17B7101D66F15F0066B015 /* MotionInfo.swift */; };
+		FB8E7EA91D69E08F00F1BB44 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8E7EA81D69E08F00F1BB44 /* GraphView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		FB17B7081D662F040066B015 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FB17B70A1D662F040066B015 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB17B7101D66F15F0066B015 /* MotionInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionInfo.swift; sourceTree = "<group>"; };
+		FB8E7EA81D69E08F00F1BB44 /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 		FB17B6FD1D662F040066B015 /* DeviceMotion */ = {
 			isa = PBXGroup;
 			children = (
+				FB8E7EA81D69E08F00F1BB44 /* GraphView.swift */,
 				FB17B6FE1D662F040066B015 /* AppDelegate.swift */,
 				FB17B7001D662F040066B015 /* ViewController.swift */,
 				FB17B7101D66F15F0066B015 /* MotionInfo.swift */,
@@ -142,6 +145,7 @@
 				FB17B7111D66F15F0066B015 /* MotionInfo.swift in Sources */,
 				FB17B7011D662F040066B015 /* ViewController.swift in Sources */,
 				FB17B6FF1D662F040066B015 /* AppDelegate.swift in Sources */,
+				FB8E7EA91D69E08F00F1BB44 /* GraphView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,6 +297,7 @@
 				FB17B70F1D662F040066B015 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

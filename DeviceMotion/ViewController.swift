@@ -8,12 +8,18 @@
 
 import UIKit
 
-class ViewController: UIViewController, MotionInfoDelegate {
+class ViewController: UIViewController {
 
-    let motionInfo = MotionInfo()
     var isRunning = false
     
     //MARK: View outlets
+    
+    @IBOutlet weak var graphNoReference: GraphView?
+    @IBOutlet weak var graphReference: GraphView?
+    
+    @IBOutlet weak var labelX: UILabel?
+    @IBOutlet weak var labelY: UILabel?
+    @IBOutlet weak var labelZ: UILabel?
     
     @IBOutlet weak var startStopButton: UIButton?
     
@@ -22,8 +28,9 @@ class ViewController: UIViewController, MotionInfoDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        motionInfo.delegate = self
-        motionInfo.updateInterval = 4.0
+        labelX?.textColor = UIColor(CGColor: GVHelpers.graphXColor)
+        labelY?.textColor = UIColor(CGColor: GVHelpers.graphYColor)
+        labelZ?.textColor = UIColor(CGColor: GVHelpers.graphZColor)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -39,27 +46,15 @@ class ViewController: UIViewController, MotionInfoDelegate {
     @IBAction func startStopTap() {
         if isRunning {
             isRunning = false
-            motionInfo.stopDataCapture()
+//            motionInfo.stopDataCapture()
             startStopButton?.setTitle("Start", forState: UIControlState.Normal)
         } else { // not running
             isRunning = true
-            motionInfo.startDataCapture()
+//            motionInfo.startDataCapture()
             startStopButton?.setTitle("Stop", forState: UIControlState.Normal)
         }
     }
 
-    //MARK: MotionInfo delegate
-    func referenceAttitudeUpdated() {
-        guard isRunning else {
-            return
-        }
-    }
-    
-    func accelerationUpdated() {
-        guard isRunning else {
-            return
-        }
-    }
 }
 
 
