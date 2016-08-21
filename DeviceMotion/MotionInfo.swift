@@ -6,7 +6,6 @@
 //  Copyright © 2016 Everett Kropf. All rights reserved.
 //
 
-import Foundation
 import CoreMotion
 
 /// Singleton encapsulation of CMMotionManager object.
