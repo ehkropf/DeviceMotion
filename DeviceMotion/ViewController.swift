@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    var timer: NSTimer!
+    var updateInterval: Double = 20 // Hertz
     var isRunning = false
     
     //MARK: View outlets
@@ -31,6 +33,8 @@ class ViewController: UIViewController {
         labelX?.textColor = UIColor(CGColor: GVHelpers.graphXColor)
         labelY?.textColor = UIColor(CGColor: GVHelpers.graphYColor)
         labelZ?.textColor = UIColor(CGColor: GVHelpers.graphZColor)
+        
+        timer = NSTimer(timeInterval: NSTimeInterval(1.0/updateInterval), target: self, selector: #selector(timerHandler(_:)), userInfo: nil, repeats: true)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -46,13 +50,17 @@ class ViewController: UIViewController {
     @IBAction func startStopTap() {
         if isRunning {
             isRunning = false
-//            motionInfo.stopDataCapture()
+            NSRunLoop.currentRunLoop().addTimer(timer, forMode: NSDefaultRunLoopMode)
             startStopButton?.setTitle("Start", forState: UIControlState.Normal)
         } else { // not running
             isRunning = true
-//            motionInfo.startDataCapture()
+            timer.invalidate()
             startStopButton?.setTitle("Stop", forState: UIControlState.Normal)
         }
+    }
+    
+    @objc func timerHandler(timer: NSTimer?) {
+        // Read motion state and add values to graphs.
     }
 
 }
