@@ -75,6 +75,39 @@ class ViewController: UIViewController {
         
     }
     
+    
+    //MARK: Method picker management
+    
+    @IBOutlet weak var methodPickerHeightConstraint: NSLayoutConstraint?
+    @IBOutlet weak var methodPickerWidthConstraint: NSLayoutConstraint?
+    var methodPickerVisibleHeight: CGFloat = 0
+    
+    func methodPickerHide(animate ani: Bool = true) {
+        if let height = methodPickerHeightConstraint?.constant {
+            methodPickerVisibleHeight = height
+            methodPickerHeightConstraint?.constant = 0
+            methodPickerWidthConstraint?.active = true
+            layoutIfNeeded(animate: ani)
+        }
+    }
+    
+    func methodPickerShow(animate ani: Bool = true) {
+        if methodPickerVisibleHeight != 0 {
+            methodPickerHeightConstraint?.constant = methodPickerVisibleHeight
+            methodPickerWidthConstraint?.active = false
+            layoutIfNeeded(animate: ani)
+        }
+    }
+    
+    func layoutIfNeeded(animate ani: Bool) {
+        if ani {
+            UIView.animateWithDuration(0.25) {
+                self.view.layoutIfNeeded()
+            }
+        } else {
+            view.layoutIfNeeded()
+        }
+    }
 }
 
 
