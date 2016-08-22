@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     let motionControl = MotionControl()
     
     var timer: NSTimer?
-    var updateInterval: Double = 30 // Hertz
+    var updateFrequency: Double = 30 // Hertz
     var isRunning = false
     
     //MARK: View outlets
@@ -34,7 +34,7 @@ class ViewController: UIViewController {
         labelY?.textColor = UIColor(CGColor: GVHelpers.graphYColor)
         labelZ?.textColor = UIColor(CGColor: GVHelpers.graphZColor)
         
-//        let dt = 1.0/updateInterval
+//        let dt = 1.0/updateFrequency
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -59,7 +59,7 @@ class ViewController: UIViewController {
             
             isRunning = true
             motionControl.startDeviceMotion()
-            timer = NSTimer(timeInterval: NSTimeInterval(1.0/updateInterval), target: self, selector: #selector(timerHandler(_:)), userInfo: nil, repeats: true)
+            timer = NSTimer(timeInterval: NSTimeInterval(1.0/updateFrequency), target: self, selector: #selector(timerHandler(_:)), userInfo: nil, repeats: true)
             NSRunLoop.currentRunLoop().addTimer(timer!, forMode: NSDefaultRunLoopMode)
             startStopButton?.setTitle("Stop", forState: UIControlState.Normal)
             
