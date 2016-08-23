@@ -35,6 +35,9 @@ class ViewController: UIViewController {
         labelZ?.textColor = UIColor(CGColor: GVHelpers.graphZColor)
         
 //        let dt = 1.0/updateFrequency
+        
+        methodLabel?.addGestureRecognizer(UITapGestureRecognizer(target: methodLabel, action: #selector(methodLabelTap(_:))))
+        methodPickerHide(animate: false)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -78,25 +81,39 @@ class ViewController: UIViewController {
     
     //MARK: Method picker management
     
-    @IBOutlet weak var methodPickerHeightConstraint: NSLayoutConstraint?
     @IBOutlet weak var methodPickerWidthConstraint: NSLayoutConstraint?
-    var methodPickerVisibleHeight: CGFloat = 0
+    @IBOutlet weak var methodPickerHeightConstraint: NSLayoutConstraint?
+    var pickerIsOpen = true
     
-    func methodPickerHide(animate ani: Bool = true) {
-        if let height = methodPickerHeightConstraint?.constant {
-            methodPickerVisibleHeight = height
-            methodPickerHeightConstraint?.constant = 0
-            methodPickerWidthConstraint?.active = true
-            layoutIfNeeded(animate: ani)
+    @IBOutlet weak var methodLabel: UILabel?
+    @IBOutlet weak var pickerDoneButton: UIButton?
+    
+    @objc func methodLabelTap(sender: UITapGestureRecognizer) {
+        if sender.state == .Ended {
+            methodPickerShow()
         }
     }
     
-    func methodPickerShow(animate ani: Bool = true) {
-        if methodPickerVisibleHeight != 0 {
-            methodPickerHeightConstraint?.constant = methodPickerVisibleHeight
-            methodPickerWidthConstraint?.active = false
+    @IBAction func pickerDoneTap() {
+        methodPickerHide()
+    }
+    
+    func methodPickerHide(animate ani: Bool = true) {
+//        if pickerIsOpen {
+            methodPickerWidthConstraint?.active = true
+            methodPickerHeightConstraint?.active = true
+            pickerIsOpen = false
             layoutIfNeeded(animate: ani)
-        }
+//        }
+    }
+    
+    func methodPickerShow(animate ani: Bool = true) {
+//        if !pickerIsOpen {
+            methodPickerWidthConstraint?.active = false
+            methodPickerHeightConstraint?.active = false
+            pickerIsOpen = true
+            layoutIfNeeded(animate: ani)
+//        }
     }
     
     func layoutIfNeeded(animate ani: Bool) {
@@ -105,7 +122,7 @@ class ViewController: UIViewController {
                 self.view.layoutIfNeeded()
             }
         } else {
-            view.layoutIfNeeded()
+            self.view.layoutIfNeeded()
         }
     }
 }
