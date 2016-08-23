@@ -29,34 +29,52 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="sl6-LN-2kt">
                                         <rect key="frame" x="0.0" y="45" width="600" height="179"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sqe-d2-cGz">
+                                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Method" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g7g-ap-tny">
                                                 <rect key="frame" x="8" y="0.0" width="584" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9BS-0h-H0U">
-                                                <rect key="frame" x="8" y="21" width="584" height="30"/>
-                                                <state key="normal" title="Button"/>
-                                            </button>
-                                            <pickerView contentMode="scaleToFill" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="128" translatesAutoresizingMaskIntoConstraints="NO" id="A4o-BG-QWV">
-                                                <rect key="frame" x="0.0" y="51" width="600" height="128"/>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kd2-kG-pgz">
+                                                <rect key="frame" x="0.0" y="21" width="600" height="158"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9BS-0h-H0U">
+                                                        <rect key="frame" x="555" y="0.0" width="37" height="30"/>
+                                                        <state key="normal" title="Done"/>
+                                                        <connections>
+                                                            <action selector="pickerDoneTap" destination="BYZ-38-t0r" eventType="touchUpInside" id="1Qn-ss-DYm"/>
+                                                        </connections>
+                                                    </button>
+                                                    <pickerView contentMode="scaleToFill" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="128" translatesAutoresizingMaskIntoConstraints="NO" id="A4o-BG-QWV">
+                                                        <rect key="frame" x="0.0" y="30" width="600" height="128"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" priority="750" constant="128" id="hEx-FG-F2K"/>
+                                                        </constraints>
+                                                    </pickerView>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="128" id="hEx-FG-F2K"/>
-                                                    <constraint firstAttribute="width" id="y1B-h3-PGx"/>
+                                                    <constraint firstItem="A4o-BG-QWV" firstAttribute="leading" secondItem="kd2-kG-pgz" secondAttribute="leading" id="EOr-s9-IkL"/>
+                                                    <constraint firstAttribute="trailing" secondItem="A4o-BG-QWV" secondAttribute="trailing" id="V3A-9J-Cc9"/>
+                                                    <constraint firstAttribute="bottom" secondItem="A4o-BG-QWV" secondAttribute="bottom" id="WSm-6t-4Ep"/>
+                                                    <constraint firstItem="9BS-0h-H0U" firstAttribute="top" secondItem="kd2-kG-pgz" secondAttribute="top" id="f7Z-sT-ABQ"/>
+                                                    <constraint firstAttribute="trailing" secondItem="9BS-0h-H0U" secondAttribute="trailing" constant="8" id="jaN-vR-Gsg"/>
+                                                    <constraint firstAttribute="width" id="oFC-pZ-gSw"/>
+                                                    <constraint firstItem="A4o-BG-QWV" firstAttribute="top" secondItem="9BS-0h-H0U" secondAttribute="bottom" id="r1A-ze-jI6"/>
+                                                    <constraint firstAttribute="height" id="whk-dy-awo"/>
                                                 </constraints>
                                                 <variation key="default">
                                                     <mask key="constraints">
-                                                        <exclude reference="y1B-h3-PGx"/>
+                                                        <exclude reference="oFC-pZ-gSw"/>
+                                                        <exclude reference="whk-dy-awo"/>
                                                     </mask>
                                                 </variation>
-                                            </pickerView>
+                                            </view>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="A4o-BG-QWV" firstAttribute="leading" secondItem="sl6-LN-2kt" secondAttribute="leading" priority="750" id="FsL-Zr-HcB"/>
-                                            <constraint firstAttribute="trailing" secondItem="A4o-BG-QWV" secondAttribute="trailing" priority="750" id="I38-Mi-OO1"/>
-                                            <constraint firstItem="Sqe-d2-cGz" firstAttribute="leading" secondItem="sl6-LN-2kt" secondAttribute="leading" constant="8" id="WZg-Y2-VJn"/>
-                                            <constraint firstAttribute="trailing" secondItem="9BS-0h-H0U" secondAttribute="trailing" constant="8" id="hAc-ce-5WC"/>
+                                            <constraint firstItem="g7g-ap-tny" firstAttribute="leading" secondItem="sl6-LN-2kt" secondAttribute="leading" constant="8" id="Dw0-SN-Dey"/>
+                                            <constraint firstItem="kd2-kG-pgz" firstAttribute="leading" secondItem="sl6-LN-2kt" secondAttribute="leading" priority="750" id="a9w-rj-V4L"/>
+                                            <constraint firstAttribute="trailing" secondItem="kd2-kG-pgz" secondAttribute="trailing" priority="750" id="frI-yz-15s"/>
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="slI-FG-PpC">
@@ -136,7 +154,9 @@
                                 <constraints>
                                     <constraint firstItem="slI-FG-PpC" firstAttribute="leading" secondItem="IIV-zd-VRN" secondAttribute="leading" id="5xj-WS-0oE"/>
                                     <constraint firstAttribute="trailing" secondItem="slI-FG-PpC" secondAttribute="trailing" id="FtV-dv-yQU"/>
+                                    <constraint firstAttribute="trailing" secondItem="sl6-LN-2kt" secondAttribute="trailing" id="Qvn-bh-9jl"/>
                                     <constraint firstAttribute="trailing" secondItem="tUg-x4-5zh" secondAttribute="trailing" constant="8" id="X5W-Ns-n3H"/>
+                                    <constraint firstItem="sl6-LN-2kt" firstAttribute="leading" secondItem="IIV-zd-VRN" secondAttribute="leading" id="aIz-Bc-L2G"/>
                                     <constraint firstItem="tUg-x4-5zh" firstAttribute="leading" secondItem="IIV-zd-VRN" secondAttribute="leading" constant="8" id="dMd-Ky-n5E"/>
                                     <constraint firstAttribute="trailing" secondItem="vl4-fA-KrJ" secondAttribute="trailing" constant="8" id="lc4-ND-uVQ"/>
                                     <constraint firstItem="iRb-Du-C6f" firstAttribute="leading" secondItem="IIV-zd-VRN" secondAttribute="leading" constant="8" id="y3o-Py-cPX"/>
@@ -154,13 +174,16 @@
                         <outlet property="labelX" destination="miD-ZK-GGq" id="R3F-eu-eLs"/>
                         <outlet property="labelY" destination="ioG-eU-AqV" id="NDp-zP-Sxf"/>
                         <outlet property="labelZ" destination="rmH-WC-zzM" id="9kO-zi-WnG"/>
-                        <outlet property="methodPickerHeightConstraint" destination="hEx-FG-F2K" id="3W3-jZ-vtc"/>
-                        <outlet property="methodPickerWidthConstraint" destination="y1B-h3-PGx" id="gkM-zO-SIX"/>
+                        <outlet property="methodLabel" destination="g7g-ap-tny" id="Mm8-cD-hEY"/>
+                        <outlet property="methodPickerHeightConstraint" destination="whk-dy-awo" id="JIM-dV-w0D"/>
+                        <outlet property="methodPickerWidthConstraint" destination="oFC-pZ-gSw" id="I1t-ds-924"/>
+                        <outlet property="pickerDoneButton" destination="9BS-0h-H0U" id="zR2-Nc-Td4"/>
                         <outlet property="startStopButton" destination="duM-tY-kTQ" id="DDQ-I3-g5S"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="325" y="377"/>
         </scene>
     </scenes>
 </document>
