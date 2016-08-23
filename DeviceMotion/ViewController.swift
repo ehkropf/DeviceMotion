@@ -36,8 +36,12 @@ class ViewController: UIViewController {
         
 //        let dt = 1.0/updateFrequency
         
-        methodLabel?.addGestureRecognizer(UITapGestureRecognizer(target: methodLabel, action: #selector(methodLabelTap(_:))))
-        methodPickerHide(animate: false)
+        methodLabel?.addGestureRecognizer(UITapGestureRecognizer(target: methodLabel, action: #selector(self.methodLabelTap(_:))))
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        methodPickerHide(animate: animated)
     }
     
     override func viewWillDisappear(animated: Bool) {
