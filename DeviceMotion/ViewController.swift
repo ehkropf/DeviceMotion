@@ -9,7 +9,7 @@
 import UIKit
 import CoreMotion
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     let motionControl = MotionControl()
     
@@ -30,18 +30,21 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        methodPicker?.delegate = self
+        methodPicker?.dataSource = self
+        
         labelX?.textColor = UIColor(CGColor: GVHelpers.graphXColor)
         labelY?.textColor = UIColor(CGColor: GVHelpers.graphYColor)
         labelZ?.textColor = UIColor(CGColor: GVHelpers.graphZColor)
         
 //        let dt = 1.0/updateFrequency
         
-        methodLabel?.addGestureRecognizer(UITapGestureRecognizer(target: methodLabel, action: #selector(self.methodLabelTap(_:))))
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        methodPickerHide(animate: animated)
+        
+        pickerViewSetHidden(true)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -85,49 +88,75 @@ class ViewController: UIViewController {
     
     //MARK: Method picker management
     
-    @IBOutlet weak var methodPickerWidthConstraint: NSLayoutConstraint?
-    @IBOutlet weak var methodPickerHeightConstraint: NSLayoutConstraint?
-    var pickerIsOpen = true
+    enum MeasurementMethod: String {
+        case PhoneMovingFrame = "Phone moving frame"
+        case Time0Frame = "t0 frame"
+    }
     
-    @IBOutlet weak var methodLabel: UILabel?
-    @IBOutlet weak var pickerDoneButton: UIButton?
+    let methodList: [MeasurementMethod] = [.PhoneMovingFrame, .Time0Frame]
     
-    @objc func methodLabelTap(sender: UITapGestureRecognizer) {
-        if sender.state == .Ended {
-            methodPickerShow()
+    @IBOutlet weak var methodPickerView: UIView?
+    @IBOutlet weak var methodPicker: UIPickerView?
+    @IBOutlet weak var methodButton: UIButton?
+    
+    @IBAction func methodButtonTap() {
+        if let hidden = methodPickerView?.hidden {
+            pickerViewSetHidden(!hidden)
         }
     }
     
     @IBAction func pickerDoneTap() {
-        methodPickerHide()
+        pickerViewSetHidden(true)
     }
     
-    func methodPickerHide(animate ani: Bool = true) {
-//        if pickerIsOpen {
-            methodPickerWidthConstraint?.active = true
-            methodPickerHeightConstraint?.active = true
-            pickerIsOpen = false
-            layoutIfNeeded(animate: ani)
-//        }
+    func updateMethodButtonLabel() {
+        if let index = methodPicker?.selectedRowInComponent(0) {
+            methodButton?.setTitle(methodList[index].rawValue, forState: .Normal)
+        }
     }
     
-    func methodPickerShow(animate ani: Bool = true) {
-//        if !pickerIsOpen {
-            methodPickerWidthConstraint?.active = false
-            methodPickerHeightConstraint?.active = false
-            pickerIsOpen = true
-            layoutIfNeeded(animate: ani)
-//        }
+    func pickerViewSetHidden(hidden: Bool, animated: Bool = true) {
+        layoutIfNeeded(animated) {
+            if hidden {
+                self.updateMethodButtonLabel()
+            }
+            if let subviews = self.methodPickerView?.subviews {
+                for view in subviews {
+                    view.hidden = hidden
+                }
+            }
+            self.methodPickerView?.hidden = hidden
+        }
     }
-    
-    func layoutIfNeeded(animate ani: Bool) {
-        if ani {
+
+    func layoutIfNeeded(animated: Bool, block: () -> Void) {
+        if animated {
             UIView.animateWithDuration(0.25) {
-                self.view.layoutIfNeeded()
+                block()
             }
         } else {
-            self.view.layoutIfNeeded()
+            block()
         }
+    }
+    
+    //MARK: Picker delegate stuff
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if component > 0 {
+            return nil
+        }
+        return methodList[row].rawValue
+    }
+    
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if component > 0 {
+            return 0
+        }
+        return methodList.count
     }
 }
 
