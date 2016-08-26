@@ -23,6 +23,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     @IBOutlet weak var labelY: UILabel?
     @IBOutlet weak var labelZ: UILabel?
     
+    @IBOutlet weak var graphView: GraphView?
     @IBOutlet weak var startStopButton: UIButton?
     
     //MARK: Lifecycle
