@@ -14,7 +14,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     let motionControl = MotionControl()
     
     var timer: NSTimer?
-    var updateFrequency: Double = 30 // Hertz
+    var updateFrequency: Double = 60 // Hertz
     var isRunning = false
     
     //MARK: View outlets
