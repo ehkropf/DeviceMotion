@@ -78,12 +78,18 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     @objc func timerHandler(timer: NSTimer?) {
-//        guard let dm = motionControl.deviceMotion else {
-//            return
-//        }
-//        let acc = dm.userAcceleration
-//        let aref = dm.userAccelerationInReferenceFrame
+        guard let dm = motionControl.deviceMotion, index = methodPicker?.selectedRowInComponent(0) else {
+            return
+        }
         
+        var acc = CMAcceleration()
+        switch methodList[index] {
+        case .PhoneMovingFrame:
+            acc = dm.userAcceleration
+        case .Time0Frame:
+            acc = dm.userAccelerationInReferenceFrame
+        }
+        graphView?.add(acc.x, acc.y, acc.z)
     }
     
     
