@@ -11,24 +11,11 @@ import CoreMotion
 
 class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
-    let motionControl = MotionControl()
-    var velocityIntegral: VelocityIntegral?
-    var tic: Double = 0.0
-    
-    var timer: NSTimer?
-    var updateFrequency: Double = 60 // Hertz
-    var isRunning = false
-    
-    //MARK: View outlets
+    //MARK: Lifecycle
     
     @IBOutlet weak var labelX: UILabel?
     @IBOutlet weak var labelY: UILabel?
     @IBOutlet weak var labelZ: UILabel?
-    
-    @IBOutlet weak var graphView: GraphView?
-    @IBOutlet weak var startStopButton: UIButton?
-    
-    //MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +43,17 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
 
     //MARK: Doing things
+    
+    let motionControl = MotionControl()
+    var timer: NSTimer?
+    var updateFrequency: Double = 60 // Hertz
+    var isRunning = false
+    
+    var velocityIntegral: VelocityIntegral?
+    var tic: Double = 0.0
+    
+    @IBOutlet weak var graphView: GraphView?
+    @IBOutlet weak var startStopButton: UIButton?
     
     @IBAction func startStopTap() {
         if isRunning {
