@@ -12,6 +12,8 @@ import CoreMotion
 class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     let motionControl = MotionControl()
+    var velocityIntegral: VelocityIntegral?
+    var tic: Double = 0.0
     
     var timer: NSTimer?
     var updateFrequency: Double = 60 // Hertz
@@ -37,9 +39,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         labelX?.textColor = UIColor(CGColor: GVHelpers.graphXColor)
         labelY?.textColor = UIColor(CGColor: GVHelpers.graphYColor)
         labelZ?.textColor = UIColor(CGColor: GVHelpers.graphZColor)
-        
-//        let dt = 1.0/updateFrequency
-        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -60,28 +59,34 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     @IBAction func startStopTap() {
         if isRunning {
-            
+            stopMeasuring()
             isRunning = false
-            timer?.invalidate()
-            motionControl.stopDeviceMotion()
             startStopButton?.setTitle("Start", forState: UIControlState.Normal)
-            
         } else { // not running
-            
+            startMeasuring()
             isRunning = true
-            motionControl.startDeviceMotion()
-            timer = NSTimer(timeInterval: NSTimeInterval(1.0/updateFrequency), target: self, selector: #selector(timerHandler(_:)), userInfo: nil, repeats: true)
-            NSRunLoop.currentRunLoop().addTimer(timer!, forMode: NSDefaultRunLoopMode)
             startStopButton?.setTitle("Stop", forState: UIControlState.Normal)
-            
         }
     }
     
-    @objc func timerHandler(timer: NSTimer?) {
+    func startMeasuring() {
+        motionControl.startDeviceMotion()
+        velocityIntegral = VelocityIntegral(v0: Vector3(getAcceleration()))
+        tic = CACurrentMediaTime()
+        timer = NSTimer(timeInterval: NSTimeInterval(1.0/updateFrequency), target: self, selector: #selector(ViewController.timerHandler(_:)), userInfo: nil, repeats: true)
+        NSRunLoop.currentRunLoop().addTimer(timer!, forMode: NSDefaultRunLoopMode)
+    }
+    
+    func stopMeasuring() {
+        timer?.invalidate()
+        velocityIntegral = nil
+        motionControl.stopDeviceMotion()
+    }
+    
+    func getAcceleration() -> CMAcceleration {
         guard let dm = motionControl.deviceMotion, index = methodPicker?.selectedRowInComponent(0) else {
-            return
+            return CMAcceleration()
         }
-        
         var acc = CMAcceleration()
         switch methodList[index] {
         case .PhoneMovingFrame:
@@ -89,7 +94,15 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         case .Time0Frame:
             acc = dm.userAccelerationInReferenceFrame
         }
+        return acc
+    }
+    
+    @objc func timerHandler(timer: NSTimer?) {
+        let acc = getAcceleration()
+        let toc = CACurrentMediaTime()
+        velocityIntegral?.add(acceleration: acc, dt: toc - tic)
         graphView?.add(acc.x, acc.y, acc.z)
+        tic = toc
     }
     
     
