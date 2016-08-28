@@ -29,31 +29,37 @@ extension CMDeviceMotion {
     }
 }
 
+//MARK: Motion facade
+
 /**
  Encapsulate CMDeviceMotion data gathering for reference frame based acceleration data.
  */
 class MotionControl {
+    
+    var available: Bool {
+        return MotionManager.instance.deviceMotionAvailable
+    }
     
     var deviceMotion: CMDeviceMotion? {
         return MotionManager.instance.deviceMotion
     }
     
     func startDeviceMotion() {
-        let mm = MotionManager.instance
-        guard mm.deviceMotionAvailable else {
+        guard self.available else {
             return
         }
-        mm.startDeviceMotionUpdates()
+        MotionManager.instance.startDeviceMotionUpdates()
     }
     
     func stopDeviceMotion() {
-        let mm = MotionManager.instance
-        guard mm.deviceMotionAvailable else {
+        guard self.available else {
             return
         }
-        mm.stopDeviceMotionUpdates()
+        MotionManager.instance.stopDeviceMotionUpdates()
     }
 }
+
+//MARK: 3D vector
 
 /**
  Define a 3D vector.
@@ -99,6 +105,8 @@ extension Vector3 {
         return sqrt(x*x + y*y + z*z)
     }
 }
+
+//MARK: Integral
 
 /**
  Compute the 3D velocity integral bit by bit.
