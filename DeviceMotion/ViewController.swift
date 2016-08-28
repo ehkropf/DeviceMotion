@@ -26,6 +26,10 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         labelX?.textColor = UIColor(CGColor: GVHelpers.graphXColor)
         labelY?.textColor = UIColor(CGColor: GVHelpers.graphYColor)
         labelZ?.textColor = UIColor(CGColor: GVHelpers.graphZColor)
+        
+        if !motionControl.available {
+            startStopButton?.enabled = false
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
