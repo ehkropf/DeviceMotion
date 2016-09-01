@@ -105,9 +105,12 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     @objc func timerHandler(timer: NSTimer?) {
         let acc = getAcceleration()
         let toc = CACurrentMediaTime()
-        velocityIntegral?.add(acceleration: acc, dt: toc - tic)
-        graphView?.add(acc.x, acc.y, acc.z)
+        let dt = toc - tic
         tic = toc
+        graphView?.add(acc.x, acc.y, acc.z)
+        guard let vi = velocityIntegral else { return }
+        vi.add(acceleration: acc, dt: dt)
+        velocityLabel?.text = String(vi) + " m/s"
     }
     
     
