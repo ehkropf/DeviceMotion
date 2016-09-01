@@ -27,7 +27,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         labelY?.textColor = UIColor(CGColor: GVHelpers.graphYColor)
         labelZ?.textColor = UIColor(CGColor: GVHelpers.graphZColor)
         
-        velocityLabel?.text = "-.-- m/s"
+        velocityLabel?.text = "-.-- mph"
         
         if !motionControl.available {
             startStopButton?.enabled = false
@@ -108,7 +108,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         velocityIntegral?.add(acceleration: acc, dt: toc - tic)
         tic = toc
         graphView?.add(acc.x, acc.y, acc.z)
-        velocityLabel?.text = (velocityIntegral?.description ?? "-.--") + " m/s"
+        velocityLabel?.text = (velocityIntegral?.description ?? "-.--") + " mph"
     }
     
     
