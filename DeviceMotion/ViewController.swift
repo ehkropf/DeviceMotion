@@ -27,6 +27,8 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         labelY?.textColor = UIColor(CGColor: GVHelpers.graphYColor)
         labelZ?.textColor = UIColor(CGColor: GVHelpers.graphZColor)
         
+        velocityLabel?.text = "-.-- m/s"
+        
         if !motionControl.available {
             startStopButton?.enabled = false
         }
@@ -58,6 +60,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     @IBOutlet weak var graphView: GraphView?
     @IBOutlet weak var startStopButton: UIButton?
+    @IBOutlet weak var velocityLabel: UILabel?
     
     @IBAction func startStopTap() {
         if isRunning {
