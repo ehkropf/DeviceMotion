@@ -153,7 +153,7 @@ class VelocityFormatter {
 }
 
 extension String {
-    init(integral vi: VelocityIntegral) {
+    init(_ vi: VelocityIntegral) {
         self = VelocityFormatter().toString(vi)!
     }
 }
