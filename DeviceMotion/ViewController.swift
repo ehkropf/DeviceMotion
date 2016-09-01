@@ -86,10 +86,10 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     func getAcceleration() -> CMAcceleration {
-        guard let dm = motionControl.deviceMotion, index = methodPicker?.selectedRowInComponent(0) else {
-            return CMAcceleration()
-        }
         var acc = CMAcceleration()
+        guard let dm = motionControl.deviceMotion, index = methodPicker?.selectedRowInComponent(0) else {
+            return acc
+        }
         switch methodList[index] {
         case .PhoneMovingFrame:
             acc = dm.userAcceleration
