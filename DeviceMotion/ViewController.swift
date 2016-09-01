@@ -202,15 +202,15 @@ extension UILabel {
 
 class VelocityFormatter {
     
-    static let nilValue = "-.--"
+    static let nilValue = "-.-"
     
     var _formatter = NSNumberFormatter()
     
     init() {
         _formatter.numberStyle = .DecimalStyle
         _formatter.minimumIntegerDigits = 1
-        _formatter.minimumFractionDigits = 2
-        _formatter.maximumFractionDigits = 2
+        _formatter.minimumFractionDigits = 1
+        _formatter.maximumFractionDigits = 1
     }
     
     func toString(value: Double) -> String {
