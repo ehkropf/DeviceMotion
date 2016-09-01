@@ -108,24 +108,34 @@ extension Vector3 {
 
 //MARK: Integral
 
+/// 1g = 9.81m/s/s
+let gConst = 9.81
+
 /**
- Compute the 3D velocity integral bit by bit.
+ Compute the 3D velocity integral piece by piece. Assumes input is in units of "g" where 1g = 9.81m/s^2.
  */
 class VelocityIntegral {
     
+    /// Integral value vector in m/s.
     var value = Vector3()
     private var _lastAdded: Vector3
     
     init(v0: Vector3) {
-        _lastAdded = v0
+        _lastAdded = v0*gConst
     }
     
+    convenience init(v0: CMAcceleration) {
+        self.init(v0: Vector3(v0))
+    }
+    
+    /// Reset the integral to zero. Keeps the last added value as a reference point for restart.
     func reset() {
         value = Vector3()
     }
     
+    /// Acceleration vector in g, dt in seconds.
     func add(acceleration acc: CMAcceleration, dt: Double) {
-        let va = Vector3(acc)
+        let va = Vector3(acc)*gConst
         let mid = (va + _lastAdded)/2.0
         _lastAdded = va
         value.x += mid.x*dt
