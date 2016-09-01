@@ -115,16 +115,16 @@ let gConst = 9.81
 let ms_mph = 0.45
 
 /**
- Compute the 3D velocity integral piece by piece. Assumes input is in units of "g" where 1g = 9.81m/s^2. This is converted to mph by 1mph = 0.45m/s.
+ Compute the 3D velocity integral piece by piece. Assumes input is in units of "g" where 1g = 9.81m/s^2. Velocity is then computed in m/s.
  */
-class VelocityIntegral: CustomStringConvertible {
+class VelocityIntegral {
     
     /// Integral value vector in m/s.
     var value = Vector3()
     private var _lastAdded: Vector3
     
     init(v0: Vector3) {
-        _lastAdded = v0*(gConst/ms_mph)
+        _lastAdded = v0*gConst
     }
     
     convenience init(v0: CMAcceleration) {
@@ -138,7 +138,7 @@ class VelocityIntegral: CustomStringConvertible {
     
     /// Acceleration vector in g, dt in seconds.
     func add(acceleration acc: CMAcceleration, dt: Double) {
-        let va = Vector3(acc)*(gConst/ms_mph)
+        let va = Vector3(acc)*gConst
         let mid = (va + _lastAdded)/2.0
         _lastAdded = va
         value.x += mid.x*dt
