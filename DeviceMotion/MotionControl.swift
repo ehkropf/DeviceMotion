@@ -22,7 +22,7 @@ extension CMDeviceMotion {
         
         var accRef = CMAcceleration()
         accRef.x = acc.x*rot.m11 + acc.y*rot.m21 + acc.z*rot.m31
-        accRef.y = acc.x*rot.m12 + acc.y*rot.m22 + acc.z*rot.m23
+        accRef.y = acc.x*rot.m12 + acc.y*rot.m22 + acc.z*rot.m32
         accRef.z = acc.x*rot.m13 + acc.y*rot.m23 + acc.z*rot.m33
         
         return accRef
