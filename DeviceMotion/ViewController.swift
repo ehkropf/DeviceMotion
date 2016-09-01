@@ -74,8 +74,8 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     func startMeasuring() {
         motionControl.startDeviceMotion()
         velocityIntegral = VelocityIntegral(v0: Vector3(getAcceleration()))
-        tic = CACurrentMediaTime()
         timer = NSTimer(timeInterval: NSTimeInterval(1.0/updateFrequency), target: self, selector: #selector(ViewController.timerHandler(_:)), userInfo: nil, repeats: true)
+        tic = CACurrentMediaTime()
         NSRunLoop.currentRunLoop().addTimer(timer!, forMode: NSDefaultRunLoopMode)
     }
     
