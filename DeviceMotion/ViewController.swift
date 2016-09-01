@@ -119,7 +119,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         case Time0Frame = "t0 frame"
     }
     
-    let methodList: [MeasurementMethod] = [.PhoneMovingFrame, .Time0Frame]
+    let methodList: [MeasurementMethod] = [.Time0Frame, .PhoneMovingFrame]
     
     @IBOutlet weak var methodPickerView: UIView?
     @IBOutlet weak var methodPicker: UIPickerView?
