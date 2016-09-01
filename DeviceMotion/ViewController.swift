@@ -27,7 +27,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         labelY?.textColor = UIColor(CGColor: GVHelpers.graphYColor)
         labelZ?.textColor = UIColor(CGColor: GVHelpers.graphZColor)
         
-        velocityLabel?.text = "-.-- mph"
+        velocityLabel?.setFromVelocity(nil, measure: "m/s")
         
         if !motionControl.available {
             startStopButton?.enabled = false
@@ -108,7 +108,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         velocityIntegral?.add(acceleration: acc, dt: toc - tic)
         tic = toc
         graphView?.add(acc.x, acc.y, acc.z)
-        velocityLabel?.text = (velocityIntegral?.description ?? "-.--") + " mph"
+        velocityLabel?.setFromVelocity(velocityIntegral?.value.magnitude, measure: "m/s")
     }
     
     
@@ -186,30 +186,35 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
 }
 
+//MARK: Number formatting
 
+extension UILabel {
+    func setFromVelocity(value: Double?, measure: String) {
+        var str: String?
+        if let v = value {
+            str = VelocityFormatter().toString(v)
+        } else {
+            str = VelocityFormatter.nilValue
+        }
+        self.text = str! + " " + measure
+    }
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+class VelocityFormatter {
+    
+    static let nilValue = "-.--"
+    
+    var _formatter = NSNumberFormatter()
+    
+    init() {
+        _formatter.numberStyle = .DecimalStyle
+        _formatter.minimumIntegerDigits = 1
+        _formatter.minimumFractionDigits = 2
+        _formatter.maximumFractionDigits = 2
+    }
+    
+    func toString(value: Double) -> String {
+        return _formatter.stringFromNumber(NSNumber(double: value)) ?? VelocityFormatter.nilValue
+    }
+    
+}
