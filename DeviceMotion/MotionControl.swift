@@ -114,7 +114,7 @@ let gConst = 9.81
 /**
  Compute the 3D velocity integral piece by piece. Assumes input is in units of "g" where 1g = 9.81m/s^2.
  */
-class VelocityIntegral {
+class VelocityIntegral: CustomStringConvertible {
     
     /// Integral value vector in m/s.
     var value = Vector3()
@@ -143,6 +143,9 @@ class VelocityIntegral {
         value.z += mid.z*dt
     }
     
+    var description: String {
+        return VelocityFormatter().toString(self)!
+    }
 }
 
 class VelocityFormatter {
@@ -160,12 +163,6 @@ class VelocityFormatter {
         return _formatter.stringFromNumber(NSNumber(double: integral.value.magnitude))
     }
     
-}
-
-extension String {
-    init(_ vi: VelocityIntegral) {
-        self = VelocityFormatter().toString(vi)!
-    }
 }
 
 
